@@ -297,12 +297,12 @@ T1_Y_axes = np.arange(start,end,jump)
 
 
 
-# plt.plot(MP2RAGE_intens_04, T1_Y_axes, 'd-', color='{}'.format(Colors[0]), label= r'$ B^+$ = {}'.format(B_plus[0]))
-# plt.plot(MP2RAGE_intens_06, T1_Y_axes, 'H-', color='{}'.format(Colors[1]), label=r'$ B^+$ = {}'.format(B_plus[1]))
-# plt.plot(MP2RAGE_intens_08, T1_Y_axes, 'o-', color='{}'.format(Colors[2]), label=r'$ B^+$ = {}'.format(B_plus[2]))
-# plt.plot(MP2RAGE_intens_1, T1_Y_axes, '^-', color='{}'.format(Colors[3]), label=r'$ B^+$ = {}'.format(B_plus[3]))
-# plt.plot(MP2RAGE_intens_1_2, T1_Y_axes, 'X-', color='{}'.format(Colors[4]), label=r'$ B^+$ = {}'.format(B_plus[4]))
-# plt.plot(MP2RAGE_intens_1_4, T1_Y_axes, '*-', color='{}'.format(Colors[5]), label=r'$ B^+$ = {}'.format(B_plus[5]))
+plt.plot(MP2RAGE_intens_04, T1_Y_axes, 'd-', color='{}'.format(Colors[0]), label= r'$ B^+$ = {}'.format(B_plus[0]))
+plt.plot(MP2RAGE_intens_06, T1_Y_axes, 'H-', color='{}'.format(Colors[1]), label=r'$ B^+$ = {}'.format(B_plus[1]))
+plt.plot(MP2RAGE_intens_08, T1_Y_axes, 'o-', color='{}'.format(Colors[2]), label=r'$ B^+$ = {}'.format(B_plus[2]))
+plt.plot(MP2RAGE_intens_1, T1_Y_axes, '^-', color='{}'.format(Colors[3]), label=r'$ B^+$ = {}'.format(B_plus[3]))
+plt.plot(MP2RAGE_intens_1_2, T1_Y_axes, 'X-', color='{}'.format(Colors[4]), label=r'$ B^+$ = {}'.format(B_plus[4]))
+plt.plot(MP2RAGE_intens_1_4, T1_Y_axes, '*-', color='{}'.format(Colors[5]), label=r'$ B^+$ = {}'.format(B_plus[5]))
 
 # =============================================================================
 # Interpolation
