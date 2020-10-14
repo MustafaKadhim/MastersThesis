@@ -9,12 +9,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-RAGE_1 = int(6.4 * 256) #1088 #6.8 * Nz_slice(160)
-RAGE_2 = int(6.4 * 256) # 1088
+RAGE_1 = int(6.4 * 256) #1638
+RAGE_2 = int(6.4 * 256) # 1638
 RAGE_3 = int(6.4 * 256)
 RAGE_4 = int(6.4 * 256)
 
-cycle = 7700 #7200 kort
+cycle = 7700 #long , #7200 kort
 
 flip_1 = 12
 flip_2 = 4
@@ -37,7 +37,7 @@ epsi = 0.00000001
 
 T1_csf =3900  #ms
 T1_gm = 1800 #ms
-T1_wm = 1200
+T1_wm = 1200 #ms
 
 f_inv_list = np.round(np.linspace(0.80,1,6), 3)
 
@@ -105,7 +105,7 @@ for Bplus in range(len(alpha_1)):
       
         X1_values = [Mz(t,T_1_list[tissue]) for t in range(X1)]
 
-        Normal_values = [ f_inv * M0_2[0] * (1-2*np.exp(-t/T_1_list[tissue])) for t in range(int(X1+ RAGE_1 + X2 + RAGE_2 + RAGE_3+ X3 + RAGE_4 + X5))]
+
         
         #------------------ RAGE 1 -----------------------
         
@@ -243,8 +243,7 @@ for Bplus in range(len(alpha_1)):
     # plt.plot(np.round(X1+ RAGE_1 + X2 + RAGE_2//2,0), M_RAGE_2[len(x_RAGE_1[:-1])//2 + 1] ,'*', label = 'k2')
 
 
-    # plt.plot(np.arange(X1+ RAGE_1 + X2 + RAGE_2 + X3-1), Normal_values, 'b-.', linewidth=1, label='Normal {} T1 relaxation'.format(lession[tissue]))
-
+    #X1_values = [Mz(t,T_1_list[tissue]) for t in range(X1)]
     plt.plot(np.arange(len(X1_values)) , X1_values, '--', linewidth=0.5, label='X1')
     plt.plot(x_RAGE_1[:-1] , M_RAGE_1[:-1], '--', linewidth=0.5, label='RAGE 1 {}'.format(B_plus[Bplus]), color='{}'.format(Colors[Bplus]))
     plt.plot(x_RAGE_1[0], M_RAGE_1[0] ,'*', label = 'k1')
