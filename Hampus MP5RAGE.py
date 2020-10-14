@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Sep 15 20:30:43 2020
-@author: musti
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -290,27 +284,27 @@ for Bplus in range(len(alpha_1)):
     plt.plot(t_X_7,M_X_7[:-1] ,'--', label = 'X7')
     
     
-x0 = [0, cycle]
-y0 = [0, 0]
-plt.plot(x0,y0, 'k--', linewidth=0.5)
-plt.xlabel('Time [ms]')
-plt.ylabel('Mz')
-plt.title('T1 relaxation influenced by f_inv and B+ in {}'.format(lession[tissue]))
+# x0 = [0, cycle]
+# y0 = [0, 0]
+# plt.plot(x0,y0, 'k--', linewidth=0.5)
+# plt.xlabel('Time [ms]')
+# plt.ylabel('Mz')
+# plt.title('T1 relaxation influenced by f_inv and B+ in {}'.format(lession[tissue]))
 
-# plt.axvline(x=TI_1, linewidth=0.4, color='g', linestyle='--')
-# plt.text(TI_1-5, 0.95, TI_1, fontsize=9, style='italic', color='r')
+# # plt.axvline(x=TI_1, linewidth=0.4, color='g', linestyle='--')
+# # plt.text(TI_1-5, 0.95, TI_1, fontsize=9, style='italic', color='r')
 
-# plt.axvline(x=TI_2, linewidth=0.4, color='g', linestyle='--')
-# plt.text(TI_2-5, 0.95, TI_2, fontsize=9, style='italic', color='r')
+# # plt.axvline(x=TI_2, linewidth=0.4, color='g', linestyle='--')
+# # plt.text(TI_2-5, 0.95, TI_2, fontsize=9, style='italic', color='r')
 
-plt.xlim((0, cycle))
-plt.ylim((-1,1))
+# plt.xlim((0, cycle))
+# plt.ylim((-1,1))
 
 
-ax = plt.subplot(111)
-box = ax.get_position()
-ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-ax.legend(loc='center left', bbox_to_anchor=(1, 0.5), ncol=2)
+# ax = plt.subplot(111)
+# box = ax.get_position()
+# ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+# ax.legend(loc='center left', bbox_to_anchor=(1, 0.5), ncol=2)
         
     
     
@@ -318,30 +312,21 @@ ax.legend(loc='center left', bbox_to_anchor=(1, 0.5), ncol=2)
     
     
     
-    # fig2 = plt.figure(2)
-    # x_K1 = np.round(X1+ RAGE_1//2,0)
-    # x_K2 = np.round(X1+ RAGE_1 + X2 + RAGE_2//2,0)
-    # x_K3 = np.round(X1+ RAGE_1 + X2 + RAGE_2 + X3 + RAGE_3//2 ,0)
-    # x_K4 = np.round(X1+ RAGE_1 + X2 + RAGE_2 + X3 + RAGE_3 + X4 +  RAGE_4//2 ,0)
-    # x_K5 = np.round(X1+ RAGE_1 + X2 + RAGE_2 + X3 + RAGE_3 + X4 + RAGE_4 + X5+ RAGE_5//2 ,0)
-
+    fig2 = plt.figure(2)
+    x_K1 = np.round(X1+ RAGE_1//2,0)
+    x_K2 = np.round(X1+ RAGE_1 + X2 + RAGE_2//2,0)
+    x_K3 = np.round(X1+ RAGE_1 + X2 + RAGE_2 + X3 + RAGE_3//2 ,0)
+    x_K4 = np.round(X1+ RAGE_1 + X2 + RAGE_2 + X3 + RAGE_3 + X4 +  RAGE_4//2 ,0)
+    x_K5 = np.round(X1+ RAGE_1 + X2 + RAGE_2 + X3 + RAGE_3 + X4 + RAGE_4 + X5+ RAGE_5//2 ,0)
     
-    # y_K1.append(M_RAGE_1[len(x_RAGE_1[:-1])//2] * (flip_ang_1))
-    # y_K2.append(M_RAGE_2[len(x_RAGE_1[:-1])//2 + 1] * (flip_ang_2))
-    # y_K3.append(M_RAGE_3[len(x_RAGE_1[:-1])//2 + 1] * (flip_ang_3))
-    # y_K4.append(M_RAGE_4[len(x_RAGE_1[:-1])//2 + 1] * (flip_ang_4))
-    # y_K5.append( M_RAGE_5[len(x_RAGE_1[:-1])//2 + 1] * (flip_ang_5))
     
-    # plt.plot([x_K1, x_K2, x_K3, x_K4, x_K5],[y_K1, y_K2, y_K3, y_K4, y_K5], 'o-', label='{}'.format(B_plus[Bplus]))    
+    y_K1.append(M_RAGE_1[len(x_RAGE_1[:-1])//2] * np.sin(alpha_1[Bplus]))
+    y_K2.append(M_RAGE_2[len(x_RAGE_1[:-1])//2 + 1] * np.sin(alpha_2[Bplus]))
+    y_K3.append(M_RAGE_3[len(x_RAGE_1[:-1])//2 + 1] * np.sin(alpha_3[Bplus]))
+    y_K4.append(M_RAGE_4[len(x_RAGE_1[:-1])//2 + 1] * np.sin(alpha_4[Bplus]))
+    y_K5.append( M_RAGE_5[len(x_RAGE_1[:-1])//2 + 1] * np.sin(alpha_5[Bplus]))
 
-#plt.plot(np.arange(X1+ RAGE_1 + X2 + RAGE_2 + X3 + RAGE_3 + RAGE_4  + X4 + RAGE_5 + X5 + X6 ), Normal_values, 'b-.', linewidth=1, label='Normal {} T1 relaxation'.format(lession[tissue]))
-#plt.plot(np.arange(X1+ RAGE_1 + X2 + RAGE_2 + X3-1), facit, 'g-.', linewidth=1, label='T1*** CSF facit')
+    plt.plot([x_K1, x_K2, x_K3, x_K4, x_K5],[y_K1, y_K2, y_K3, y_K4, y_K5], 'o-', label='{}'.format(B_plus[Bplus]))    
 
-
-
-
-
-
-#fig2 = plt.figure(2)
-
-# plt.plot([],[], 'o-')
+# plt.plot(np.arange(X1+ RAGE_1 + X2 + RAGE_2 + X3 + RAGE_3 + RAGE_4  + X4 + RAGE_5 + X5 + X6 ), Normal_values, 'b-.', linewidth=1, label='Normal {} T1 relaxation'.format(lession[tissue]))
+# plt.plot(np.arange(X1+ RAGE_1 + X2 + RAGE_2 + X3-1), facit, 'g-.', linewidth=1, label='T1*** CSF facit')
