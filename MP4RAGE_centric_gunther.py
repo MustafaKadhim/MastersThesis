@@ -181,7 +181,7 @@ for Bplus in range(len(alpha_1)):
             M_RAGE_3[0] = M_RAGE_2[-2]
                             
             for i in range(1,len(M_RAGE_3)-1,2):
-                M_RAGE_3[i] = M_RAGE_3[i-1] * np.cos(alpha_2[Bplus])
+                M_RAGE_3[i] = M_RAGE_3[i-1] * np.cos(alpha_3[Bplus])
                 for j in range(1):
                     M_RAGE_3[i+j+1] = M_RAGE_3[i] * np.exp(-Echo_factor/T_1_list[tissue]) + (1-np.exp(-Echo_factor/T_1_list[tissue]))
                     
@@ -205,7 +205,7 @@ for Bplus in range(len(alpha_1)):
             M_RAGE_4[0] = M_RAGE_3[-2]
                             
             for i in range(1,len(M_RAGE_4)-1,2):
-                M_RAGE_4[i] = M_RAGE_4[i-1] * np.cos(alpha_2[Bplus])
+                M_RAGE_4[i] = M_RAGE_4[i-1] * np.cos(alpha_4[Bplus])
                 for j in range(1):
                     M_RAGE_4[i+j+1] = M_RAGE_4[i] * np.exp(-Echo_factor/T_1_list[tissue]) + (1-np.exp(-Echo_factor/T_1_list[tissue]))
                     
@@ -216,7 +216,7 @@ for Bplus in range(len(alpha_1)):
         for j in range(0,len(M_X_5)):
             M_X_5[j] = M_RAGE_4[-2] * np.exp(-j/T_1_list[tissue]) + (1-np.exp(-j/T_1_list[tissue])) #tar sista värdet av zikzak 
                     
-        t_X_5 = np.arange( np.round(TI_4 + RAGE_4, 0)  , np.round(cycle , 0))    
+        t_X_5 = np.arange( int(TI_4 + RAGE_4)  , int(cycle ))    
         
         M0_2.append(M_X_5[-1])
     
