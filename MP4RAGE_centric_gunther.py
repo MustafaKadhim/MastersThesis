@@ -10,16 +10,16 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 RAGE_1 = int(6.4 * 256) #1638
-RAGE_2 = int(6.4 * 256) # 1638
+RAGE_2 = int(6.4 * 256) 
 RAGE_3 = int(6.4 * 256)
 RAGE_4 = int(6.4 * 256)
 
-cycle = 7700 #long , #7200 kort
+cycle = 7700 #7200 kort
 
 flip_1 = 12
-flip_2 = 4
-flip_3 = 4
-flip_4 = 4
+flip_2 = 6
+flip_3 = 6
+flip_4 = 6
 
 Echo_factor = 6.4
 
@@ -37,7 +37,7 @@ epsi = 0.00000001
 
 T1_csf =3900  #ms
 T1_gm = 1800 #ms
-T1_wm = 1200 #ms
+T1_wm = 1200
 
 f_inv_list = np.round(np.linspace(0.80,1,6), 3)
 
@@ -62,7 +62,7 @@ M_gm = np.zeros(cycle)
 M_wm = np.zeros(cycle)
 M_tissue = [M_wm]
 
-tissue = 2
+tissue = 0
 
 B_plus = np.sort( [1, 1.2 ,1.4 , 0.4, 0.6,0.8])
 alpha_1 = [flip_ang_1 * i for i in B_plus]
@@ -83,14 +83,15 @@ y_K1=[]
 y_K2=[]
 for Bplus in range(len(alpha_1)):
 
-    M0_2 = [1]    
+    M0_2 = [1] 
+    M0=1
     for m in range(len(M0_2)+Iterations):       
 #------------------
     
       
       # Plottar tiden som finns först i listan 
         x_RAGE_1 = []
-        for i in range(1,slices):
+        for i in range(1,slices+1):
             x_RAGE_1.append((i*epsi + (i-1)* Echo_factor) + X1)
             for j in range(1):
                 x_RAGE_1.append(i *(epsi + Echo_factor) + X1)
@@ -100,12 +101,12 @@ for Bplus in range(len(alpha_1)):
         
         def Mz(t,T1):
                         
-            return f_inv * M0_2[m] * (1-2*np.exp(-t/T_1_list[tissue])) 
+            return M0  + (- f_inv * M0_2[m] - M0) * np.exp(-t/T_1_list[tissue])  
         
       
         X1_values = [Mz(t,T_1_list[tissue]) for t in range(X1)]
 
-
+        #Normal_values = [ f_inv * M0_2[0] * (1-2*np.exp(-t/T_1_list[tissue])) for t in range(int(X1+ RAGE_1 + X2 + RAGE_2 + RAGE_3+ X3 + RAGE_4 + X5))]
         
         #------------------ RAGE 1 -----------------------
         
@@ -200,14 +201,14 @@ for Bplus in range(len(alpha_1)):
                         
                 
    
-        else:
-            M_RAGE_4 = np.zeros(len(x_RAGE_1))
-            M_RAGE_4[0] = M_RAGE_3[-2]
+        # else:
+        #     M_RAGE_4 = np.zeros(len(x_RAGE_1))
+        #     M_RAGE_4[0] = M_RAGE_3[-2]
                             
-            for i in range(1,len(M_RAGE_4)-1,2):
-                M_RAGE_4[i] = M_RAGE_4[i-1] * np.cos(alpha_4[Bplus])
-                for j in range(1):
-                    M_RAGE_4[i+j+1] = M_RAGE_4[i] * np.exp(-Echo_factor/T_1_list[tissue]) + (1-np.exp(-Echo_factor/T_1_list[tissue]))
+        #     for i in range(1,len(M_RAGE_4)-1,2):
+        #         M_RAGE_4[i] = M_RAGE_4[i-1] * np.cos(alpha_4[Bplus])
+        #         for j in range(1):
+        #             M_RAGE_4[i+j+1] = M_RAGE_4[i] * np.exp(-Echo_factor/T_1_list[tissue]) + (1-np.exp(-Echo_factor/T_1_list[tissue]))
                     
 
    
@@ -216,7 +217,7 @@ for Bplus in range(len(alpha_1)):
         for j in range(0,len(M_X_5)):
             M_X_5[j] = M_RAGE_4[-2] * np.exp(-j/T_1_list[tissue]) + (1-np.exp(-j/T_1_list[tissue])) #tar sista värdet av zikzak 
                     
-        t_X_5 = np.arange( int(TI_4 + RAGE_4)  , int(cycle ))    
+        t_X_5 = np.arange( int(TI_4 + RAGE_4)  , int(cycle))    
         
         M0_2.append(M_X_5[-1])
     
@@ -240,26 +241,27 @@ for Bplus in range(len(alpha_1)):
     
     
     
-    # plt.plot(np.round(X1+ RAGE_1 + X2 + RAGE_2//2,0), M_RAGE_2[len(x_RAGE_1[:-1])//2 + 1] ,'*', label = 'k2')
+    #plt.plot(np.round(X1+ RAGE_1 + X2 + RAGE_2//2,0), M_RAGE_2[len(x_RAGE_1[:-1])//2 + 1] ,'*', label = 'k2')
 
 
-    #X1_values = [Mz(t,T_1_list[tissue]) for t in range(X1)]
+    #plt.plot(np.arange(X1+ RAGE_1 + X2 + RAGE_2 + X3-1), Normal_values, 'b-.', linewidth=1, label='Normal {} T1 relaxation'.format(lession[tissue]))
+
     plt.plot(np.arange(len(X1_values)) , X1_values, '--', linewidth=0.5, label='X1')
     plt.plot(x_RAGE_1[:-1] , M_RAGE_1[:-1], '--', linewidth=0.5, label='RAGE 1 {}'.format(B_plus[Bplus]), color='{}'.format(Colors[Bplus]))
     plt.plot(x_RAGE_1[0], M_RAGE_1[0] ,'*', label = 'k1')
-    plt.plot([i + np.round(RAGE_1 + X2, 0) for i in x_RAGE_1[:-1]] , M_RAGE_2[:-1], '--', linewidth=0.5, label='RAGE 2 {}'.format(B_plus[Bplus]), color='{}'.format(Colors2[Bplus]))
-    plt.plot([i + np.round(RAGE_1 + X2, 0) for i in x_RAGE_1[:-1]][0], M_RAGE_2[0] ,'*', label = 'k2')
-    plt.plot([i + np.round(RAGE_1 + X2 + RAGE_2, 0) for i in x_RAGE_1[:-1]] , M_RAGE_3[:-1], '--', linewidth=0.5, label='RAGE 3 {}'.format(B_plus[Bplus]), color='{}'.format(Colors[Bplus]))
-    plt.plot([i + np.round(RAGE_1 + X2 + RAGE_2, 0) for i in x_RAGE_1[:-1]][0], M_RAGE_3[0] ,'*', label = 'k3')
+    plt.plot([i + np.round(RAGE_2 + X2, 0) for i in x_RAGE_1[:-1]] , M_RAGE_2[:-1], '--', linewidth=0.5, label='RAGE 2 {}'.format(B_plus[Bplus]), color='{}'.format(Colors2[Bplus]))
+    plt.plot([i + np.round(RAGE_2 + X2, 0) for i in x_RAGE_1[:-1]][0], M_RAGE_2[0] ,'*', label = 'k2')
+    plt.plot([i + np.round(RAGE_2 + X2 + RAGE_3, 0) for i in x_RAGE_1[:-1]] , M_RAGE_3[:-1], '--', linewidth=0.5, label='RAGE 3 {}'.format(B_plus[Bplus]), color='{}'.format(Colors[Bplus]))
+    plt.plot([i + np.round(RAGE_2 + X2 + RAGE_3, 0) for i in x_RAGE_1[:-1]][0], M_RAGE_3[0] ,'*', label = 'k3')
     
-    plt.plot([i + np.round(RAGE_1 + X2 + RAGE_2 + RAGE_3, 0) for i in x_RAGE_1[:-1]] , M_RAGE_4[:-1], '--', linewidth=0.5, label='RAGE 4 {}'.format(B_plus[Bplus]), color='{}'.format(Colors[Bplus]))
-    plt.plot([i + np.round(RAGE_1 + X2 + RAGE_2 + RAGE_3, 0) for i in x_RAGE_1[:-1]][0], M_RAGE_4[0] ,'*', label = 'k4')
+    plt.plot([i + np.round(RAGE_2 + X2 + RAGE_3 + RAGE_4, 0) for i in x_RAGE_1[:-1]] , M_RAGE_4[:-1], '--', linewidth=0.5, label='RAGE 4 {}'.format(B_plus[Bplus]), color='{}'.format(Colors[Bplus]))
+    plt.plot([i + np.round(RAGE_2 + X2 + RAGE_3 + RAGE_4, 0) for i in x_RAGE_1[:-1]][0], M_RAGE_4[0] ,'*', label = 'k4')
 
     plt.plot(t_X_5, M_X_5, '--', linewidth=0.5, label='X5 {}'.format(B_plus[Bplus]), color='{}'.format(Colors[Bplus]))
     
     
     
-# plt.plot(np.arange(cycle), Mz(np.arange(cycle), T_1_list[tissue]), 'b-.', linewidth=1, label='Normal {} T1 relaxation'.format(lession[tissue]) )
+plt.plot(np.arange(cycle), 0.96* (1-2*np.exp(-np.arange(cycle)/T_1_list[tissue])), 'b-.', linewidth=1, label='Normal {} T1 relaxation'.format(lession[tissue]) )
 
 
 
@@ -279,8 +281,8 @@ plt.axvline(x=TI_2, linewidth=0.4, color='g', linestyle='--')
 plt.axvline(x=TI_3, linewidth=0.4, color='g', linestyle='--')
 plt.axvline(x=TI_4, linewidth=0.4, color='g', linestyle='--')
 
-plt.text(TI_2-5, 0.94, TI_2, fontsize=8, style='italic', color='r')
 plt.text(TI_1-5, 0.94, TI_1, fontsize=8, style='italic', color='r')
+plt.text(TI_2-5, 0.94, TI_2, fontsize=8, style='italic', color='r')
 plt.text(TI_3-5, 0.94, TI_3, fontsize=8, style='italic', color='r')
 plt.text(TI_4-5, 0.94, TI_4, fontsize=8, style='italic', color='r')
 
