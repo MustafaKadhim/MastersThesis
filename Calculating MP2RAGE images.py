@@ -376,15 +376,31 @@ from skimage import io
 
 B_plus = [0.4, 0.6, 0.8, 1.0, 1.2 , 1.4]
 
-F_inv_B_max_6 = []
-F_inv_B_max_9 = []
-F_inv_B_max_12 = []
-F_inv_B_max_17 = []
+F_inv_B_max_6 = [0.28, 0.35, 0.365, 0.42, 0.437, 0.454]
+F_inv_B_max_9 = [0.25, 0.34, 0.36, 0.4, 0.440, 0.449]
+F_inv_B_max_12 = [0.23, 0.34, 0.35, 0.4, 0.434, 0.440]
+F_inv_B_max_17 = [0.23, 0.33, 0.347, 0.399, 0.432, 0.448]
 
-plt.plot(B_plus, F_inv_B_max_6, 'r^', linewidth=0.6, label='B1-max = 6')
-plt.plot(B_plus, F_inv_B_max_9, 'g^', linewidth=0.6, label='B1-max = 9')
-plt.plot(B_plus, F_inv_B_max_12, 'b^', linewidth=0.6, label='B1-max = 12')
-plt.plot(B_plus, F_inv_B_max_17, 'k^', linewidth=0.6, label='B1-max = 17')
+F_inv_B_max_6_error = [0.02, 0.027, 0.06, 0.043, 0.026, 0.02 ]
+F_inv_B_max_9_error = [0.07, 0.06, 0.06, 0.022, 0.039, 0.058 ]
+F_inv_B_max_12_error = [0.04, 0.029, 0.035, 0.02 ,0.026, 0.017 ]
+F_inv_B_max_17_error = [0.05, 0.036, 0.05, 0.02, 0.024, 0.018  ]
+
+# plt.plot(B_plus, F_inv_B_max_6, 'r-^', linewidth=0.6, label='B1-max = 6')
+# plt.plot(B_plus, F_inv_B_max_9, 'g-^', linewidth=0.6, label='B1-max = 9')
+# plt.plot(B_plus, F_inv_B_max_12, 'b-^', linewidth=0.6, label='B1-max = 12')
+# plt.plot(B_plus, F_inv_B_max_17, 'k-^', linewidth=0.6, label='B1-max = 17')
+
+plt.errorbar(B_plus, F_inv_B_max_6, yerr=F_inv_B_max_6_error, marker='^', color='red', label='B1max = 6')
+plt.errorbar(B_plus, F_inv_B_max_9, yerr=F_inv_B_max_6_error, marker='^', color='blue', label='B1max = 9')
+plt.errorbar(B_plus, F_inv_B_max_12, yerr=F_inv_B_max_6_error, marker='^', color='green', label='B1max = 12')
+plt.errorbar(B_plus, F_inv_B_max_17, yerr=F_inv_B_max_6_error, marker='^', color='black', label='B1max = 17')
+plt.title("B1max effect on MP2EAGE vs B1+")
+plt.ylabel("MP2RAGE")
+plt.xlabel("B1+")
+plt.grid()
+plt.legend()
+plt.show()
 
 
 #%%
