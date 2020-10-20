@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Oct  6 12:37:05 2020
-
-@author: musti
-"""
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -61,14 +53,9 @@ alpha_2= [flip_ang_2 * i for i in B_plus]
 
 Iterations = 10
 
-f_inv = 0.96 #0.94
+f_inv = [0.96] #, 0.94,0.90,0.86, 0.84,0.80] #0.94
 
-MP2RAGE_intens_04 = []
-MP2RAGE_intens_06 = []
-MP2RAGE_intens_08 = []
-MP2RAGE_intens_1 = []
-MP2RAGE_intens_1_2 = []
-MP2RAGE_intens_1_4 = []
+
 
 start= 600
 end= 4200
@@ -78,11 +65,19 @@ jump = 100
 
 
 #%%
+#for f in range(len(f_inv)):
+MP2RAGE_intens_04 = []
+MP2RAGE_intens_06 = []
+MP2RAGE_intens_08 = []
+MP2RAGE_intens_1 = []
+MP2RAGE_intens_1_2 = []
+MP2RAGE_intens_1_4 = []
 for T1_loop in range(start,end,jump):
     y_K1=[]
     y_K2=[]
     for Bplus in range(len(alpha_1)):
-        M0_2 = [1]    
+        M0_2 = [1] 
+        M0 = 1
         for m in range(len(M0_2)+Iterations):       
     #------------------
         
@@ -97,13 +92,13 @@ for T1_loop in range(start,end,jump):
             # the k1 x-point is at np.round(x_RAGE_1[len(x_RAGE_1)//2], 0) = 900
             #------------------ X1 -----------------------
             
+
             def Mz(t,T1):
                             
-                return f_inv * M0_2[m] * (1-2*np.exp(-t/T1_loop))        
+                return M0  + (- f_inv[0] * M0_2[m] - M0) * np.exp(-t/T1_loop)     
             
             X1_values = [Mz(t,T1_csf) for t in range(X1)]
-            Normal_values = [ f_inv * M0_2[0] * (1-2*np.exp(-t/T1_loop)) for t in range(int(X1+ RAGE_1 + X2 + RAGE_2 + X3))]
-            
+           
             #------------------ RAGE 1 -----------------------
             
             
@@ -288,7 +283,7 @@ for T1_loop in range(start,end,jump):
 
 
 
-#%%
+
 
 from scipy.interpolate import interp1d
 
@@ -296,14 +291,19 @@ from scipy.interpolate import interp1d
 
 T1_Y_axes = np.arange(start,end,jump)
 
+f = 0
+mark = ['^-', 'o-', 'x-', 'd-', 'H-', 's-']
+plt.plot(MP2RAGE_intens_04, T1_Y_axes, '-', color='{}'.format(Colors[0]), label= r'$ B^+$ = {}, f-inv = {}'.format(B_plus[0], f_inv[f]))
+plt.plot(MP2RAGE_intens_06, T1_Y_axes, '-', color='{}'.format(Colors[1]), label=r'$ B^+$ = {}, f-inv = {}'.format(B_plus[1], f_inv[f]))
+plt.plot(MP2RAGE_intens_08, T1_Y_axes, '-', color='{}'.format(Colors[2]), label=r'$ B^+$ = {}, f-inv = {}'.format(B_plus[2], f_inv[f]))
+plt.plot(MP2RAGE_intens_1, T1_Y_axes, '-', color='{}'.format(Colors[3]), label=r'$ B^+$ = {}, f-inv = {}'.format(B_plus[3], f_inv[f]))
+plt.plot(MP2RAGE_intens_1_2, T1_Y_axes, '-', color='{}'.format(Colors[4]), label=r'$ B^+$ = {}, f-inv = {}'.format(B_plus[4], f_inv[f]))
+plt.plot(MP2RAGE_intens_1_4, T1_Y_axes, '-', color='{}'.format(Colors[5]), label=r'$ B^+$ = {},f-inv =  {}'.format(B_plus[5], f_inv[f]))
 
 
-plt.plot(MP2RAGE_intens_04, T1_Y_axes, 'd-', color='{}'.format(Colors[0]), label= r'$ B^+$ = {}'.format(B_plus[0]))
-plt.plot(MP2RAGE_intens_06, T1_Y_axes, 'H-', color='{}'.format(Colors[1]), label=r'$ B^+$ = {}'.format(B_plus[1]))
-plt.plot(MP2RAGE_intens_08, T1_Y_axes, 'o-', color='{}'.format(Colors[2]), label=r'$ B^+$ = {}'.format(B_plus[2]))
-plt.plot(MP2RAGE_intens_1, T1_Y_axes, '^-', color='{}'.format(Colors[3]), label=r'$ B^+$ = {}'.format(B_plus[3]))
-plt.plot(MP2RAGE_intens_1_2, T1_Y_axes, 'X-', color='{}'.format(Colors[4]), label=r'$ B^+$ = {}'.format(B_plus[4]))
-plt.plot(MP2RAGE_intens_1_4, T1_Y_axes, '*-', color='{}'.format(Colors[5]), label=r'$ B^+$ = {}'.format(B_plus[5]))
+
+
+
 
 # =============================================================================
 # Interpolation
@@ -328,19 +328,24 @@ test_inter = np.linspace(-0.5,0.5,20,endpoint=True)
 
 
 plt.title(r'$\alpha_1 / \alpha_2 = {}^o /{}^o  $'.format(flip_1,flip_2))
-plt.xlabel('MP2RAGE Intensity')
-plt.ylabel('T1-values [ms]')
+plt.xlabel('MP2RAGE Intensity', fontsize=12, fontweight='bold')
+plt.ylabel('T1-values [ms]',  fontsize=12, fontweight='bold')
 plt.xlim((-0.501,0.501))
 plt.ylim((start, end))
 plt.xticks(np.linspace(-0.5,0.5,11),['-0.5','-0.4','-0.3','-0.2','-0.1','0','0.1','0.2','0.3','0.4','0.5'])
 plt.axhspan(1000, 1100, facecolor='0.9') # WM
 plt.axhspan(1700, 1800, facecolor='0.9') # GM
-plt.text(0.48, (1200), 'WM', dict(size=10), color='red')
-plt.text(0.48, (1969+2161)/2, 'GM', dict(size=10), color='green')
+plt.axhspan(3900, 4050, facecolor='0.9') # GM
 
+plt.text(0.48, (1050), 'WM', dict(size=10), color='red', fontweight='bold')
+plt.text(0.48, 1752, 'GM', dict(size=10), color='green',fontweight='bold')
+plt.text(0.48, 3950, 'CSF', dict(size=10), color='blue', fontweight='bold')
 
 plt.legend()
+plt.grid(color='black', linestyle=':', linewidth=0.3)
 plt.show()
+
+
 
     
 #T1_map_Values = pd.DataFrame(np.array([MP2RAGE_intens_04,MP2RAGE_intens_06, MP2RAGE_intens_08, MP2RAGE_intens_1,MP2RAGE_intens_1_2, MP2RAGE_intens_1_4]) , columns = ['0.4', '0.6', '0.8', '1', '1.2', '1.4'])
@@ -351,27 +356,16 @@ plt.show()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 print("--- %s seconds ---" % (time.time() - start_time))
+
+
+
+
+
+
+
+
+
 
 
 
