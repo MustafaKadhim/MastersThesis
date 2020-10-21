@@ -405,4 +405,201 @@ plt.show()
 
 #%%
 
+# =============================================================================
+# Creating B1-plus full of ones for Marques' code
+# =============================================================================
+
+import numpy as np
+import matplotlib.pyplot as plt
+import nibabel as nib
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from skimage.measure import profile_line
+from skimage import io
+
+
+
+path = r"C:\Users\musti\Desktop\Gunther_NEw_Data_MP2RAGE"
+file_1_ST2 = "\Shadow_Gunther_53.nii_shadowreg_DREAM_combined_Gunther.nii.gz"
+
+
+epi_img_imag_ST2 = nib.load(path + file_1_ST2)
+epi_img_imag_ST2_st2_ad = epi_img_imag_ST2.get_fdata() 
+
+
+B1_ones  = np.ones((epi_img_imag_ST2_st2_ad.shape), dtype=np.int32)
+print(B1_ones.shape)
+        
+        
+new_image_17_ST2_ad = nib.Nifti1Image(B1_ones, epi_img_imag_ST2.affine)
+nib.save(new_image_17_ST2_ad, path + "\B1_plus_Map_ones.nii.gz")
+
+
+#%%
+import numpy as np
+import matplotlib.pyplot as plt
+import nibabel as nib
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from skimage.measure import profile_line
+from skimage import io
+
+
+T1_corrected_06 = 1050.6
+T1_corrected_09 = 1070
+T1_corrected_12 = 1095
+T1_corrected_17 = 1111.6
+
+
+T1_corrected_06_err = 54
+T1_corrected_09_err = 59
+T1_corrected_12_err = 65
+T1_corrected_17_err = 65
+
+
+T1_corrected_06_B1ones = 872
+T1_corrected_09_B1ones = 885
+T1_corrected_12_B1ones = 899.6
+T1_corrected_17_B1ones = 910
+
+T1_corrected_06_B1ones_err = 34.2
+T1_corrected_09_B1ones_err = 38
+T1_corrected_12_B1ones_err = 41
+T1_corrected_17_B1ones_err = 43.4
+
+
+plt.errorbar([6,9,12,17],[T1_corrected_06, T1_corrected_09, T1_corrected_12,T1_corrected_17 ],
+             yerr= [T1_corrected_06_err, T1_corrected_09_err, T1_corrected_12_err,T1_corrected_17_err]
+             ,marker= 's',mfc='red', label='Local Flip Angle Map')
+
+
+plt.errorbar([6,9,12,17],[ T1_corrected_06_B1ones, T1_corrected_09_B1ones, T1_corrected_12_B1ones, T1_corrected_17_B1ones ],
+             yerr= [T1_corrected_06_B1ones_err, T1_corrected_09_B1ones_err, T1_corrected_12_B1ones_err, T1_corrected_17_B1ones_err]
+             ,marker= 's', mec='k', label='Without Local Flip Angle Map')
+
+
+plt.title('T1-values vs B1-max influenced by local flip angles')
+plt.xlabel('B1-max [uT]',fontsize=9, fontweight='bold')
+plt.ylabel('T1-values [ms]', fontsize=9, fontweight='bold')
+plt.grid(color = 'black' , linestyle = ':', linewidth = 0.7)
+plt.legend()
+
+
+
+
+
+
+#%%
+
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+import nibabel as nib
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from skimage.measure import profile_line
+from skimage import io
+
+
+T1_corrected_adi_53 = 1130.5
+T1_corrected_FOCI_53 = 1137
+T1_corrected_FOCI_45 = 1100
+
+T1_corrected_adi_53_err = 53.5
+T1_corrected_FOCI_53_err = 59.9
+T1_corrected_FOCI_45_err = 57.2
+
+
+
+T1_corrected_adi_53_B1ones = 1030.4
+T1_corrected_FOCI_53_B1ones = 1035
+T1_corrected_FOCI_45_B1ones = 1070.9
+
+T1_corrected_adi_53_B1ones_err = 44
+T1_corrected_FOCI_53_B1ones_err = 50.4
+T1_corrected_FOCI_45_B1ones_err = 60.05
+
+
+
+plt.errorbar(['Full Adiabatic','FOCI 5-3','FOCI 4-5'],[T1_corrected_adi_53, T1_corrected_FOCI_53, T1_corrected_FOCI_45 ],
+             yerr= [T1_corrected_adi_53_err, T1_corrected_FOCI_53_err, T1_corrected_FOCI_45_err]
+             ,marker= 's',mfc='red', label='Local Flip Angle Map')
+
+
+plt.errorbar(['Full Adiabatic','FOCI 5-3','FOCI 4-5'],[T1_corrected_adi_53_B1ones, T1_corrected_FOCI_53_B1ones, T1_corrected_FOCI_45_B1ones ],
+              yerr= [T1_corrected_adi_53_B1ones_err, T1_corrected_FOCI_53_B1ones_err, T1_corrected_FOCI_45_B1ones_err]
+              ,marker= 's', mec='k', label='Without Local Flip Angle Map')
+
+
+plt.title('T1-values vs Puls and Sequance types influenced by local flip angles')
+plt.xlabel('Puls/Sequance',fontsize=9, fontweight='bold')
+plt.ylabel('T1-values [ms]', fontsize=9, fontweight='bold')
+plt.grid(color = 'black' , linestyle = ':', linewidth = 0.7)
+plt.legend()
+ 
+
+
+
+
+
+
+
+
+
+
+
+#%%
+
+import numpy as np
+import matplotlib.pyplot as plt
+import nibabel as nib
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from skimage.measure import profile_line
+from skimage import io
+
+f_inv = [1, 0.96, 0.92, 0.88, 0.84, 0.80 ]
+T1_corrected_MP2RAGEold_1 = [1129.3]
+T1_corrected_MP2RAGEold_096 = [1160.7]
+T1_corrected_MP2RAGEold_092 = [1194.95]
+T1_corrected_MP2RAGEold_088 = [1232.3]
+T1_corrected_MP2RAGEold_084 = [1273.4]
+T1_corrected_MP2RAGEold_080 = [1318.7]
+
+T1_corrected_MP2RAGEold_1_err = [52.5]
+T1_corrected_MP2RAGEold_096_err = [55.5]
+T1_corrected_MP2RAGEold_092_err = [58.9]
+T1_corrected_MP2RAGEold_088_err = [62.7]
+T1_corrected_MP2RAGEold_084_err = [67.0]
+T1_corrected_MP2RAGEold_080_err = [71.9]
+
+
+T1_corrected_MP2RAGEold_1_B1ones = 963.5
+T1_corrected_MP2RAGEold_096_B1ones  =987.4
+T1_corrected_MP2RAGEold_092_B1ones  = 1013
+T1_corrected_MP2RAGEold_088_B1ones  = 1041
+T1_corrected_MP2RAGEold_084_B1ones  = 1071.3
+T1_corrected_MP2RAGEold_080_B1ones  = 1104.5
+
+T1_corrected_MP2RAGEold_1_B1ones_err = 37.2
+T1_corrected_MP2RAGEold_096_B1ones_err  = 39.1
+T1_corrected_MP2RAGEold_092_B1ones_err  = 41.2
+T1_corrected_MP2RAGEold_088_B1ones_err  = 43.5
+T1_corrected_MP2RAGEold_084_B1ones_err  = 46.1
+T1_corrected_MP2RAGEold_080_B1ones_err  = 49.2
+
+plt.errorbar(f_inv,[T1_corrected_MP2RAGEold_1[0], T1_corrected_MP2RAGEold_096[0], T1_corrected_MP2RAGEold_092[0],T1_corrected_MP2RAGEold_088[0], T1_corrected_MP2RAGEold_084[0], T1_corrected_MP2RAGEold_080[0]  ],
+             yerr= [T1_corrected_MP2RAGEold_1_err[0], T1_corrected_MP2RAGEold_096_err[0], T1_corrected_MP2RAGEold_092_err[0],T1_corrected_MP2RAGEold_088_err[0], T1_corrected_MP2RAGEold_084_err[0],T1_corrected_MP2RAGEold_080_err[0]]
+             ,marker= 's',mfc='red', label='Local Flip Angle Map')
+
+
+plt.errorbar(f_inv,[ T1_corrected_MP2RAGEold_1_B1ones, T1_corrected_MP2RAGEold_096_B1ones, T1_corrected_MP2RAGEold_092_B1ones, T1_corrected_MP2RAGEold_088_B1ones, T1_corrected_MP2RAGEold_084_B1ones, T1_corrected_MP2RAGEold_080_B1ones   ],
+             yerr= [T1_corrected_MP2RAGEold_1_B1ones_err, T1_corrected_MP2RAGEold_096_B1ones_err, T1_corrected_MP2RAGEold_092_B1ones_err, T1_corrected_MP2RAGEold_088_B1ones_err, T1_corrected_MP2RAGEold_084_B1ones_err, T1_corrected_MP2RAGEold_080_B1ones_err  ]
+
+             ,marker= 's', mec='k', label='Without Local Flip Angle Map')
+
+
+plt.title('T1-values vs inverstion efficiency influenced by local flip angles')
+plt.xlabel('Inversion efficiency',fontsize=9, fontweight='bold')
+plt.ylabel('T1-values [ms] ', fontsize=9, fontweight='bold')
+plt.grid(color = 'black' , linestyle = ':', linewidth = 0.7)
+plt.legend()
+
 
