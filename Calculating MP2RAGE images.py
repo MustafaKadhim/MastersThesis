@@ -902,9 +902,28 @@ plt.grid(color = 'black' , linestyle = ':', linewidth = 0.7)
 plt.legend()
 
 
+#%%
+
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+
+labels = ['0.80', '0.84', '0.88', '0.92', '0.96','1.0']
+T1_values = [1190.569, 1154.605, 1121.765, 1091.633, 1050.6,1038.201]
+T1_goal = 1200
+errors =[63.654,59.715,56.259,53.193,50.429,47.943]
+
+x = np.arange(len(labels))  # the label locations
+width = 0.35  # the width of the bars
 
 
+plt.bar(labels , T1_values, width, color=['black', 'red', 'green', 'blue', 'cyan','m'],edgecolor='black', yerr=errors, alpha= 0.5)
+plt.plot([-0.50,6],[1200,1200], 'r--')
 
-
+plt.title('T1-values influenced by Assigned Inversion Efficency',fontsize=12, fontweight='bold')
+plt.xlim((-0.5, 5.5))
+plt.xlabel('Assigned Inversion Efficency',fontsize=12, fontweight='bold')
+plt.ylabel('Estimated T1-values [ms]',fontsize=12, fontweight='bold')
+plt.legend()
 
 
