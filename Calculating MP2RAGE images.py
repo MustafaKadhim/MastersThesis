@@ -418,8 +418,8 @@ from skimage import io
 
 
 
-path = r"C:\Users\musti\Desktop\Gunther_NEw_Data_MP2RAGE"
-file_1_ST2 = "\Shadow_Gunther_53.nii_shadowreg_DREAM_combined_Gunther.nii.gz"
+path = r"C:\Users\musti\Desktop\T1mappped Data\oldData"
+file_1_ST2 = "\MP2RAGE_Stacked0.5SkalleFree_Python.nii.gz"
 
 
 epi_img_imag_ST2 = nib.load(path + file_1_ST2)
@@ -431,7 +431,7 @@ print(B1_ones.shape)
         
         
 new_image_17_ST2_ad = nib.Nifti1Image(B1_ones, epi_img_imag_ST2.affine)
-nib.save(new_image_17_ST2_ad, path + "\B1_plus_Map_ones.nii.gz")
+nib.save(new_image_17_ST2_ad, path + "\OldData_B1_plus_Map_ones.nii.gz")
 
 
 #%%
@@ -466,14 +466,52 @@ T1_corrected_12_B1ones_err = 41
 T1_corrected_17_B1ones_err = 43.4
 
 
-plt.errorbar([6,9,12,17],[T1_corrected_06, T1_corrected_09, T1_corrected_12,T1_corrected_17 ],
+plt.errorbar([6,9,12,15],[T1_corrected_06, T1_corrected_09, T1_corrected_12,T1_corrected_17 ],
              yerr= [T1_corrected_06_err, T1_corrected_09_err, T1_corrected_12_err,T1_corrected_17_err]
-             ,marker= 's',mfc='red', label='Local Flip Angle Map')
+             ,marker= 's',mfc='red', label='Local Flip Angle Map, finv = 0.96')
 
-
-plt.errorbar([6,9,12,17],[ T1_corrected_06_B1ones, T1_corrected_09_B1ones, T1_corrected_12_B1ones, T1_corrected_17_B1ones ],
+plt.errorbar([6,9,12,15],[ T1_corrected_06_B1ones, T1_corrected_09_B1ones, T1_corrected_12_B1ones, T1_corrected_17_B1ones ],
              yerr= [T1_corrected_06_B1ones_err, T1_corrected_09_B1ones_err, T1_corrected_12_B1ones_err, T1_corrected_17_B1ones_err]
-             ,marker= 's', mec='k', label='Without Local Flip Angle Map')
+             ,marker= 's', mec='k', label='Without Local Flip Angle Map, finv = 0.96')
+
+
+plt.errorbar([6],[1190.5],
+             yerr= [63.654
+]
+             ,marker= 's', label=' finv= 0.80')
+
+plt.errorbar([6],[1154.605],
+             yerr= [59.715
+]
+             ,marker= 's', label=' finv= 0.84')
+
+plt.errorbar([6],[1121.765
+],
+             yerr= [56.259
+]
+             ,marker= 's', label=' finv= 0.88')
+
+plt.errorbar([6],[1091.633
+],
+             yerr= [53.193
+]
+             ,marker= 's', label=' finv= 0.92')
+
+plt.errorbar([6],[1050.6
+],
+             yerr= [50.429
+]
+             ,marker= 's', mfc='red', mec='blue')
+
+plt.errorbar([6],[1038.201
+],
+             yerr= [47.943
+]
+             ,marker= 's', label=' finv= 1.0')
+
+
+
+
 
 
 plt.title('T1-values vs B1-max influenced by local flip angles')
@@ -489,7 +527,9 @@ plt.legend()
 
 #%%
 
-
+# =============================================================================
+# Needs to be corrected for FOCI 4-5
+# =============================================================================
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -499,34 +539,86 @@ from skimage.measure import profile_line
 from skimage import io
 
 
-T1_corrected_adi_53 = 1130.5
-T1_corrected_FOCI_53 = 1137
-T1_corrected_FOCI_45 = 1100
+T1_corrected_adi_53 = 1138.146
 
-T1_corrected_adi_53_err = 53.5
-T1_corrected_FOCI_53_err = 59.9
-T1_corrected_FOCI_45_err = 57.2
+T1_corrected_FOCI_53 = 1129.536
+
+T1_corrected_FOCI_45 = 1314.509
 
 
+T1_corrected_adi_53_err = 49.814
 
-T1_corrected_adi_53_B1ones = 1030.4
-T1_corrected_FOCI_53_B1ones = 1035
-T1_corrected_FOCI_45_B1ones = 1070.9
+T1_corrected_FOCI_53_err = 53.535
 
-T1_corrected_adi_53_B1ones_err = 44
-T1_corrected_FOCI_53_B1ones_err = 50.4
-T1_corrected_FOCI_45_B1ones_err = 60.05
+T1_corrected_FOCI_45_err = 38.059
+
+
+
+
+T1_corrected_adi_53_B1ones = 1029.815
+
+T1_corrected_FOCI_53_B1ones = 1027.433
+
+T1_corrected_FOCI_45_B1ones = 1175.882
+
+
+T1_corrected_adi_53_B1ones_err = 39.005
+
+T1_corrected_FOCI_53_B1ones_err = 40.722
+
+T1_corrected_FOCI_45_B1ones_err = 28.252
+
 
 
 
 plt.errorbar(['Full Adiabatic','FOCI 5-3','FOCI 4-5'],[T1_corrected_adi_53, T1_corrected_FOCI_53, T1_corrected_FOCI_45 ],
              yerr= [T1_corrected_adi_53_err, T1_corrected_FOCI_53_err, T1_corrected_FOCI_45_err]
-             ,marker= 's',mfc='red', label='Local Flip Angle Map')
+             ,marker= 's',mfc='red', label='Local Flip Angle Map, finv = 0.96')
 
 
 plt.errorbar(['Full Adiabatic','FOCI 5-3','FOCI 4-5'],[T1_corrected_adi_53_B1ones, T1_corrected_FOCI_53_B1ones, T1_corrected_FOCI_45_B1ones ],
               yerr= [T1_corrected_adi_53_B1ones_err, T1_corrected_FOCI_53_B1ones_err, T1_corrected_FOCI_45_B1ones_err]
-              ,marker= 's', mec='k', label='Without Local Flip Angle Map')
+              ,marker= 's', mec='k', label='Without Local Flip Angle Map,, finv = 0.96')
+
+
+plt.errorbar(['FOCI 4-5'],[1525.177
+
+],
+             yerr= [50.913
+
+]
+             ,marker= 's', label=' finv= 0.8')
+
+plt.errorbar(['FOCI 4-5'],[1463.732
+
+],
+             yerr= [47.943
+]
+             ,marker= 's', label=' finv= 0.84')
+
+plt.errorbar(['FOCI 4-5'],[1408.789
+
+],
+             yerr= [43.943
+]
+             ,marker= 's', label=' finv= 0.88')
+
+plt.errorbar(['FOCI 4-5'],[1359.321
+
+],
+             yerr= [40
+]
+             ,marker= 's', label=' finv= 0.92')
+
+plt.errorbar(['FOCI 4-5'],[1273.697
+
+],
+             yerr= [35.796
+
+]
+             ,marker= 's', label=' finv= 1.0')
+
+
 
 
 plt.title('T1-values vs Puls and Sequance types influenced by local flip angles')
@@ -597,9 +689,222 @@ plt.errorbar(f_inv,[ T1_corrected_MP2RAGEold_1_B1ones, T1_corrected_MP2RAGEold_0
 
 
 plt.title('T1-values vs inverstion efficiency influenced by local flip angles')
-plt.xlabel('Inversion efficiency',fontsize=9, fontweight='bold')
-plt.ylabel('T1-values [ms] ', fontsize=9, fontweight='bold')
+plt.xlabel('Assigned Inversion efficiency',fontsize=9, fontweight='bold')
+plt.ylabel('Estimated T1-values [ms] ', fontsize=9, fontweight='bold')
 plt.grid(color = 'black' , linestyle = ':', linewidth = 0.7)
 plt.legend()
+
+
+#%%
+
+# =============================================================================
+# different Volunteers/Test subjects
+# =============================================================================
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+import nibabel as nib
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from skimage.measure import profile_line
+from skimage import io
+
+f_inv = [1, 0.96, 0.92, 0.88, 0.84, 0.80 ]
+T1_corrected_MP2RAGEold_1 = [1129.3]
+T1_corrected_MP2RAGEold_096 = [1160.7]
+T1_corrected_MP2RAGEold_092 = [1194.95]
+T1_corrected_MP2RAGEold_088 = [1232.3]
+T1_corrected_MP2RAGEold_084 = [1273.4]
+T1_corrected_MP2RAGEold_080 = [1318.7]
+
+T1_corrected_MP2RAGEold_1_err = [52.5]
+T1_corrected_MP2RAGEold_096_err = [55.5]
+T1_corrected_MP2RAGEold_092_err = [58.9]
+T1_corrected_MP2RAGEold_088_err = [62.7]
+T1_corrected_MP2RAGEold_084_err = [67.0]
+T1_corrected_MP2RAGEold_080_err = [71.9]
+
+
+T1_corrected_MP2RAGEold_1_B1ones = 963.5
+T1_corrected_MP2RAGEold_096_B1ones  =987.4
+T1_corrected_MP2RAGEold_092_B1ones  = 1013
+T1_corrected_MP2RAGEold_088_B1ones  = 1041
+T1_corrected_MP2RAGEold_084_B1ones  = 1071.3
+T1_corrected_MP2RAGEold_080_B1ones  = 1104.5
+
+T1_corrected_MP2RAGEold_1_B1ones_err = 37.2
+T1_corrected_MP2RAGEold_096_B1ones_err  = 39.1
+T1_corrected_MP2RAGEold_092_B1ones_err  = 41.2
+T1_corrected_MP2RAGEold_088_B1ones_err  = 43.5
+T1_corrected_MP2RAGEold_084_B1ones_err  = 46.1
+T1_corrected_MP2RAGEold_080_B1ones_err  = 49.2
+
+
+
+plt.errorbar(f_inv,[T1_corrected_MP2RAGEold_1[0], T1_corrected_MP2RAGEold_096[0], T1_corrected_MP2RAGEold_092[0],T1_corrected_MP2RAGEold_088[0], T1_corrected_MP2RAGEold_084[0], T1_corrected_MP2RAGEold_080[0]  ],
+             yerr= [T1_corrected_MP2RAGEold_1_err[0], T1_corrected_MP2RAGEold_096_err[0], T1_corrected_MP2RAGEold_092_err[0],T1_corrected_MP2RAGEold_088_err[0], T1_corrected_MP2RAGEold_084_err[0],T1_corrected_MP2RAGEold_080_err[0]]
+             ,marker= 'd',mfc='red', label='Local Flip Angle Map,Full Adiabatic Vol.1', markersize= 10)
+
+
+plt.errorbar(f_inv,[ T1_corrected_MP2RAGEold_1_B1ones, T1_corrected_MP2RAGEold_096_B1ones, T1_corrected_MP2RAGEold_092_B1ones, T1_corrected_MP2RAGEold_088_B1ones, T1_corrected_MP2RAGEold_084_B1ones, T1_corrected_MP2RAGEold_080_B1ones   ],
+             yerr= [T1_corrected_MP2RAGEold_1_B1ones_err, T1_corrected_MP2RAGEold_096_B1ones_err, T1_corrected_MP2RAGEold_092_B1ones_err, T1_corrected_MP2RAGEold_088_B1ones_err, T1_corrected_MP2RAGEold_084_B1ones_err, T1_corrected_MP2RAGEold_080_B1ones_err  ]
+
+             ,marker= 'd', mec='k', label='Without Local Flip Angle Map, Full Adiabatic  Vol.1', markersize= 10)
+
+
+T1_corrected_MP2RAGEold_080_Hampus = [1254.334]
+T1_corrected_MP2RAGEold_084_Hampus = [1214.154]
+T1_corrected_MP2RAGEold_088_Hampus = [1177.598]
+T1_corrected_MP2RAGEold_092_Hampus = [1144.216]
+T1_corrected_MP2RAGEold_096_Hampus = [1113.498]
+T1_corrected_MP2RAGEold_1_Hampus = [1085.236]
+
+T1_corrected_MP2RAGEold_080_err_Hampus = [81.588]
+T1_corrected_MP2RAGEold_084_err_Hampus = [76.273]
+T1_corrected_MP2RAGEold_088_err_Hampus = [71.622]
+T1_corrected_MP2RAGEold_092_err_Hampus = [67.507]
+T1_corrected_MP2RAGEold_096_err_Hampus = [63.858]
+T1_corrected_MP2RAGEold_1_err_Hampus = [60.56]
+
+
+
+T1_corrected_MP2RAGEold_080_B1ones_Hampus = 1002.305
+T1_corrected_MP2RAGEold_084_B1ones_Hampus  =974.983
+T1_corrected_MP2RAGEold_088_B1ones_Hampus  = 949.992
+T1_corrected_MP2RAGEold_092_B1ones_Hampus  = 926.761
+T1_corrected_MP2RAGEold_096_B1ones_Hampus  = 905.108
+T1_corrected_MP2RAGEold_1_B1ones_Hampus  = 885.562
+
+
+
+T1_corrected_MP2RAGEold_080_B1ones_err_Hampus = 47.469
+T1_corrected_MP2RAGEold_084_B1ones_err_Hampus  = 44.988
+T1_corrected_MP2RAGEold_088_B1ones_err_Hampus  = 42.585
+T1_corrected_MP2RAGEold_092_B1ones_err_Hampus  = 40.441
+T1_corrected_MP2RAGEold_096_B1ones_err_Hampus  = 38.73
+T1_corrected_MP2RAGEold_1_B1ones_err_Hampus  = 36.676
+
+plt.errorbar(f_inv,[T1_corrected_MP2RAGEold_1_Hampus[0], T1_corrected_MP2RAGEold_096_Hampus[0], T1_corrected_MP2RAGEold_092_Hampus[0],T1_corrected_MP2RAGEold_088_Hampus[0], T1_corrected_MP2RAGEold_084_Hampus[0], T1_corrected_MP2RAGEold_080_Hampus[0]  ],
+             yerr= [T1_corrected_MP2RAGEold_1_err_Hampus[0], T1_corrected_MP2RAGEold_096_err_Hampus[0], T1_corrected_MP2RAGEold_092_err_Hampus[0],T1_corrected_MP2RAGEold_088_err_Hampus[0], T1_corrected_MP2RAGEold_084_err_Hampus[0],T1_corrected_MP2RAGEold_080_err_Hampus[0]]
+             ,marker= 's',mfc='red', label='Local Flip Angle Map, Full Adiabatic  Vol.2', markersize= 10)
+
+
+plt.errorbar(f_inv,[ T1_corrected_MP2RAGEold_1_B1ones_Hampus, T1_corrected_MP2RAGEold_096_B1ones_Hampus, T1_corrected_MP2RAGEold_092_B1ones_Hampus, T1_corrected_MP2RAGEold_088_B1ones_Hampus, T1_corrected_MP2RAGEold_084_B1ones_Hampus, T1_corrected_MP2RAGEold_080_B1ones_Hampus   ],
+             yerr= [T1_corrected_MP2RAGEold_1_B1ones_err_Hampus, T1_corrected_MP2RAGEold_096_B1ones_err_Hampus, T1_corrected_MP2RAGEold_092_B1ones_err_Hampus, T1_corrected_MP2RAGEold_088_B1ones_err_Hampus, T1_corrected_MP2RAGEold_084_B1ones_err_Hampus, T1_corrected_MP2RAGEold_080_B1ones_err_Hampus  ]
+
+             ,marker= 's', mec='k', label='Without Local Flip Angle Map, Full Adiabatic Vol.2', markersize= 10)
+
+
+
+T1_corrected_MP2RAGEold_080_Gunther_FO53 = [1281.932]
+T1_corrected_MP2RAGEold_084_Gunther_FO53 = [1238.24]
+T1_corrected_MP2RAGEold_088_Gunther_FO53 = [1198.667]
+T1_corrected_MP2RAGEold_092_Gunther_FO53 = [1162.563]
+T1_corrected_MP2RAGEold_096_Gunther_FO53 = [1129.536]
+T1_corrected_MP2RAGEold_1_Gunther_FO53 = [1099.208]
+
+
+
+T1_corrected_MP2RAGEold_080_err_Gunther_FO53 = [69.05]
+T1_corrected_MP2RAGEold_084_err_Gunther_FO53 = [64.398]
+T1_corrected_MP2RAGEold_088_err_Gunther_FO53 = [60.283]
+T1_corrected_MP2RAGEold_092_err_Gunther_FO53 = [56.725]
+T1_corrected_MP2RAGEold_096_err_Gunther_FO53 = [53.535]
+T1_corrected_MP2RAGEold_1_err_Gunther_FO53 = [50.689]
+
+
+T1_corrected_MP2RAGEold_080_B1ones_Gunther_FO53 = 1155.17
+T1_corrected_MP2RAGEold_084_B1ones_Gunther_FO53  =1118.752
+T1_corrected_MP2RAGEold_088_B1ones_Gunther_FO53  = 1085.747
+T1_corrected_MP2RAGEold_092_B1ones_Gunther_FO53 = 1055.321
+T1_corrected_MP2RAGEold_096_B1ones_Gunther_FO53 = 1027.433
+T1_corrected_MP2RAGEold_1_B1ones_Gunther_FO53  = 1001.627
+
+
+
+T1_corrected_MP2RAGEold_080_B1ones_err_Gunther_FO53 = 51.702
+T1_corrected_MP2RAGEold_084_B1ones_err_Gunther_FO53  = 48.463
+T1_corrected_MP2RAGEold_088_B1ones_err_Gunther_FO53  = 45.468
+T1_corrected_MP2RAGEold_092_B1ones_err_Gunther_FO53 = 43.064
+T1_corrected_MP2RAGEold_096_B1ones_err_Gunther_FO53  = 40.722
+T1_corrected_MP2RAGEold_1_B1ones_err_Gunther_FO53  = 38.748
+
+
+
+
+plt.errorbar(f_inv,[T1_corrected_MP2RAGEold_1_Gunther_FO53[0], T1_corrected_MP2RAGEold_096_Gunther_FO53[0], T1_corrected_MP2RAGEold_092_Gunther_FO53[0],T1_corrected_MP2RAGEold_088_Gunther_FO53[0], T1_corrected_MP2RAGEold_084_Gunther_FO53[0], T1_corrected_MP2RAGEold_080_Gunther_FO53[0]  ],
+             yerr= [T1_corrected_MP2RAGEold_1_err_Gunther_FO53[0], T1_corrected_MP2RAGEold_096_err_Gunther_FO53[0], T1_corrected_MP2RAGEold_092_err_Gunther_FO53[0],T1_corrected_MP2RAGEold_088_err_Gunther_FO53[0], T1_corrected_MP2RAGEold_084_err_Gunther_FO53[0],T1_corrected_MP2RAGEold_080_err_Gunther_FO53[0]]
+             ,marker= 'h',mfc='green', label='Local Flip Angle Map, FOCI 53 Vol.3', markersize= 10)
+
+
+plt.errorbar(f_inv,[ T1_corrected_MP2RAGEold_1_B1ones_Gunther_FO53, T1_corrected_MP2RAGEold_096_B1ones_Gunther_FO53, T1_corrected_MP2RAGEold_092_B1ones_Gunther_FO53, T1_corrected_MP2RAGEold_088_B1ones_Gunther_FO53, T1_corrected_MP2RAGEold_084_B1ones_Gunther_FO53, T1_corrected_MP2RAGEold_080_B1ones_Gunther_FO53  ],
+             yerr= [T1_corrected_MP2RAGEold_1_B1ones_err_Gunther_FO53, T1_corrected_MP2RAGEold_096_B1ones_err_Gunther_FO53, T1_corrected_MP2RAGEold_092_B1ones_err_Gunther_FO53, T1_corrected_MP2RAGEold_088_B1ones_err_Gunther_FO53, T1_corrected_MP2RAGEold_084_B1ones_err_Gunther_FO53, T1_corrected_MP2RAGEold_080_B1ones_err_Gunther_FO53  ]
+
+             ,marker= 'h', mec='k', label='Without Local Flip Angle Map, FOCI 53 Vol.3', markersize= 10)
+
+
+
+T1_corrected_MP2RAGEold_080_Gunther_ADI53 = [1292.85]
+T1_corrected_MP2RAGEold_084_Gunther_ADI53 = [1248.489]
+T1_corrected_MP2RAGEold_088_Gunther_ADI53 = [1208.281]
+T1_corrected_MP2RAGEold_092_Gunther_ADI53 = [1171.622]
+T1_corrected_MP2RAGEold_096_Gunther_ADI53 = [1138.146]
+T1_corrected_MP2RAGEold_1_Gunther_ADI53= [1107.359]
+
+
+T1_corrected_MP2RAGEold_080_err_Gunther_ADI53 = [64.62]
+T1_corrected_MP2RAGEold_084_err_Gunther_ADI53 = [60.148]
+T1_corrected_MP2RAGEold_088_err_Gunther_ADI53 = [56.263]
+T1_corrected_MP2RAGEold_092_err_Gunther_ADI53 = [52.885]
+T1_corrected_MP2RAGEold_096_err_Gunther_ADI53 = [49.814]
+T1_corrected_MP2RAGEold_1_err_Gunther_ADI53= [47.166]
+
+
+T1_corrected_MP2RAGEold_080_B1ones_Gunther_ADI53 = 1158.175
+T1_corrected_MP2RAGEold_084_B1ones_Gunther_ADI53  =1121.566
+T1_corrected_MP2RAGEold_088_B1ones_Gunther_ADI53  = 1088.403
+T1_corrected_MP2RAGEold_092_B1ones_Gunther_ADI53 =1057.834
+T1_corrected_MP2RAGEold_096_B1ones_Gunther_ADI53 = 1029.815
+T1_corrected_MP2RAGEold_1_B1ones_Gunther_ADI53 = 1003.888
+
+
+
+
+
+
+
+
+
+T1_corrected_MP2RAGEold_080_B1ones_err_Gunther_ADI53 = 49.622
+T1_corrected_MP2RAGEold_084_B1ones_err_Gunther_ADI53 = 46.493
+T1_corrected_MP2RAGEold_088_B1ones_err_Gunther_ADI53  = 43.586
+T1_corrected_MP2RAGEold_092_B1ones_err_Gunther_ADI53 = 41.28
+T1_corrected_MP2RAGEold_096_B1ones_err_Gunther_ADI53 = 39.005
+T1_corrected_MP2RAGEold_1_B1ones_err_Gunther_ADI53 = 37.123
+
+
+plt.errorbar(f_inv,[T1_corrected_MP2RAGEold_1_Gunther_ADI53[0], T1_corrected_MP2RAGEold_096_Gunther_ADI53[0], T1_corrected_MP2RAGEold_092_Gunther_ADI53[0],T1_corrected_MP2RAGEold_088_Gunther_ADI53[0], T1_corrected_MP2RAGEold_084_Gunther_ADI53[0], T1_corrected_MP2RAGEold_080_Gunther_ADI53[0]  ],
+             yerr= [T1_corrected_MP2RAGEold_1_err_Gunther_ADI53[0], T1_corrected_MP2RAGEold_096_err_Gunther_ADI53[0], T1_corrected_MP2RAGEold_092_err_Gunther_ADI53[0],T1_corrected_MP2RAGEold_088_err_Gunther_ADI53[0], T1_corrected_MP2RAGEold_084_err_Gunther_ADI53[0],T1_corrected_MP2RAGEold_080_err_Gunther_ADI53[0]]
+             ,marker= '^',mfc='y', label='Local Flip Angle Map, Adi-53 Vol.3', markersize= 10)
+
+
+plt.errorbar(f_inv,[ T1_corrected_MP2RAGEold_1_B1ones_Gunther_ADI53, T1_corrected_MP2RAGEold_096_B1ones_Gunther_ADI53, T1_corrected_MP2RAGEold_092_B1ones_Gunther_ADI53, T1_corrected_MP2RAGEold_088_B1ones_Gunther_ADI53, T1_corrected_MP2RAGEold_084_B1ones_Gunther_ADI53, T1_corrected_MP2RAGEold_080_B1ones_Gunther_ADI53  ],
+             yerr= [T1_corrected_MP2RAGEold_1_B1ones_err_Gunther_ADI53, T1_corrected_MP2RAGEold_096_B1ones_err_Gunther_ADI53, T1_corrected_MP2RAGEold_092_B1ones_err_Gunther_ADI53, T1_corrected_MP2RAGEold_088_B1ones_err_Gunther_ADI53, T1_corrected_MP2RAGEold_084_B1ones_err_Gunther_ADI53, T1_corrected_MP2RAGEold_080_B1ones_err_Gunther_ADI53  ]
+
+             ,marker= '^', mec='k', label='Without Local Flip Angle Map, Adi-53 Vol.3', markersize= 10)
+
+
+
+plt.title('T1-values vs inverstion efficiency influenced by local flip angles', fontsize=12, fontweight='bold')
+plt.xlabel('Assigned Inversion efficiency',fontsize=12, fontweight='bold')
+plt.ylabel('Estimated T1-values [ms] ', fontsize=12, fontweight='bold')
+plt.grid(color = 'black' , linestyle = ':', linewidth = 0.7)
+plt.legend()
+
+
+
+
+
+
 
 
