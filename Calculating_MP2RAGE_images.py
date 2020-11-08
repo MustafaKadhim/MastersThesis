@@ -647,6 +647,8 @@ import nibabel as nib
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from skimage.measure import profile_line
 from skimage import io
+plt.rcParams.update({'font.size': 13})
+
 
 f_inv = [1, 0.96, 0.92, 0.88, 0.84, 0.80 ]
 T1_corrected_MP2RAGEold_1 = [1129.3]
@@ -848,6 +850,8 @@ plt.legend()
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+plt.rcParams.update({'font.size': 13})
+
 
 labels = ['0.80', '0.84', '0.88', '0.92', '0.96','1.0']
 T1_values = [1190.569, 1154.605, 1121.765, 1091.633, 1050.6,1038.201]
@@ -876,6 +880,9 @@ plt.legend()
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+plt.rcParams.update({'font.size': 13})
+
+
 
 labels = ['0.80', '0.84', '0.88', '0.92', '0.96','1.0']
 T1_values = [1686,  1615, 1552, 1496 ,1445,1399]
@@ -905,6 +912,9 @@ plt.legend()
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+plt.rcParams.update({'font.size': 13})
+
+
 
 labels = ['0.80', '0.84', '0.88', '0.92', '0.96','1.0']
 T1_values = [1525,1463,1408,1359,1314,1273]
@@ -935,6 +945,9 @@ plt.ylabel('Estimated T1-values [ms]',fontsize=12, fontweight='bold')
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+plt.rcParams.update({'font.size': 13})
+
+
 
 labels = ['0.80', '0.84', '0.88', '0.92', '0.96','1.0']
 T1_values = [1896,1802,1720,1648,1583,1525]
