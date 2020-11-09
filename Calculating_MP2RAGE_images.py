@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Oct 19 08:13:44 2020
-@author: musti
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 import nibabel as nib
@@ -364,6 +358,9 @@ nib.save(new_image_17_ST2_fo_53, path + "\B1_plus_NewData_40ffs_seperated_Gunthe
 #%%
 
 
+# =============================================================================
+# Creating B1-plus vs MP2RAGE vs B1-max
+# =============================================================================
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -408,29 +405,29 @@ plt.show()
 # Creating B1-plus full of ones for Marques' code
 # =============================================================================
 
-import numpy as np
-import matplotlib.pyplot as plt
-import nibabel as nib
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-from skimage.measure import profile_line
-from skimage import io
+# import numpy as np
+# import matplotlib.pyplot as plt
+# import nibabel as nib
+# from mpl_toolkits.axes_grid1 import make_axes_locatable
+# from skimage.measure import profile_line
+# from skimage import io
 
 
 
-path = r"C:\Users\musti\Desktop\T1mappped Data\oldData"
-file_1_ST2 = "\MP2RAGE_Stacked0.5SkalleFree_Python.nii.gz"
+# path = r"C:\Users\musti\Desktop\T1mappped Data\oldData"
+# file_1_ST2 = "\MP2RAGE_Stacked0.5SkalleFree_Python.nii.gz"
 
 
-epi_img_imag_ST2 = nib.load(path + file_1_ST2)
-epi_img_imag_ST2_st2_ad = epi_img_imag_ST2.get_fdata() 
+# epi_img_imag_ST2 = nib.load(path + file_1_ST2)
+# epi_img_imag_ST2_st2_ad = epi_img_imag_ST2.get_fdata() 
 
 
-B1_ones  = np.ones((epi_img_imag_ST2_st2_ad.shape), dtype=np.int32)
-print(B1_ones.shape)
+# B1_ones  = np.ones((epi_img_imag_ST2_st2_ad.shape), dtype=np.int32)
+# print(B1_ones.shape)
         
         
-new_image_17_ST2_ad = nib.Nifti1Image(B1_ones, epi_img_imag_ST2.affine)
-nib.save(new_image_17_ST2_ad, path + "\OldData_B1_plus_Map_ones.nii.gz")
+# new_image_17_ST2_ad = nib.Nifti1Image(B1_ones, epi_img_imag_ST2.affine)
+# nib.save(new_image_17_ST2_ad, path + "\OldData_B1_plus_Map_ones.nii.gz")
 
 
 #%%
@@ -440,7 +437,7 @@ import nibabel as nib
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from skimage.measure import profile_line
 from skimage import io
-
+plt.rcParams.update({'font.size': 13})
 
 T1_corrected_06 = 1050.6
 T1_corrected_09 = 1070
@@ -472,6 +469,10 @@ plt.errorbar([6,9,12,15],[T1_corrected_06, T1_corrected_09, T1_corrected_12,T1_c
 plt.errorbar([6,9,12,15],[ T1_corrected_06_B1ones, T1_corrected_09_B1ones, T1_corrected_12_B1ones, T1_corrected_17_B1ones ],
              yerr= [T1_corrected_06_B1ones_err, T1_corrected_09_B1ones_err, T1_corrected_12_B1ones_err, T1_corrected_17_B1ones_err]
              ,marker= 's', mec='k', label='Without Local Flip Angle Map, finv = 0.96')
+
+
+plt.errorbar([20],[ 7.3733*20 + 1005.5 ],yerr= [65]
+             ,color='deeppink',mfc='red',marker= 'd', mec='k', label=' Predicted value, finv = 0.96')
 
 line_values = [7.3733*i + 1005.5 for i in [6,9,12,15,18,20]]
 plt.plot([6,9,12,15,18,20], line_values , 'deeppink', label='linear fit', linewidth=3, alpha=0.65, linestyle='-.')
@@ -519,7 +520,7 @@ plt.title('T1-values vs B1-max influenced by local flip angles (WM)')
 plt.xlabel('B1-max [uT]',fontsize=9, fontweight='bold')
 plt.ylabel('T1-values [ms]', fontsize=9, fontweight='bold')
 plt.grid(color = 'black' , linestyle = ':', linewidth = 0.7)
-plt.legend()
+plt.legend(loc='upper left', framealpha=0.1)
 
 
 # =============================================================================
@@ -873,7 +874,7 @@ plt.ylabel('Estimated T1-values [ms]',fontsize=12, fontweight='bold')
 plt.legend()
 
 
-#%%
+
 # =============================================================================
 #  for Grey matter
 # =============================================================================
@@ -894,11 +895,11 @@ x = np.arange(len(labels))  # the label locations
 width = 0.35  # the width of the bars
 
 
-plt.bar(labels , T1_values, width, color=['blue'],edgecolor='black', yerr=errors, alpha= 0.3, label='GM')
+plt.bar(labels , T1_values, width, color=['blue'],edgecolor='black', yerr=errors, alpha= 0.2, label='GM')
 
 plt.plot([-0.50,6],[T1_goal,T1_goal], 'k-.')
 
-plt.title('T1-values influenced by Assigned Inversion Efficency [Adi + FOCI 53] (WM)',fontsize=12, fontweight='bold')
+plt.title('T1-values influenced by Assigned Inversion Efficency [Adi + FOCI 53] (WM + GM)',fontsize=12, fontweight='bold')
 plt.xlim((-0.5, 5.5))
 plt.ylim((0,1850))
 plt.xlabel('Assigned Inversion Efficency',fontsize=12, fontweight='bold')
@@ -938,7 +939,7 @@ plt.ylabel('Estimated T1-values [ms]',fontsize=12, fontweight='bold')
 #  we see that we need to adjust the finv devpending on sequance type. But not so much for a new puls (FOCI vs ADI)
 # =============================================================================
 
-#%%
+
 # =============================================================================
 # Comparission of FOCI vs ADI (GM)
 # =============================================================================
@@ -959,16 +960,12 @@ x = np.arange(len(labels))  # the label locations
 width = 0.35  # the width of the bars
 
 
-plt.bar(labels , T1_values, width, color=['blue'],edgecolor='black', yerr=errors, alpha= 0.3, label='GM')
+plt.bar(labels , T1_values, width, color=['blue'],edgecolor='black', yerr=errors, alpha= 0.2, label='GM')
 
 plt.plot([-0.50,6],[T1_goal,T1_goal], 'k-.')
 
-plt.title('T1-values influenced by Assigned Inversion Efficency in FOCI 4-5 (GM)',fontsize=12, fontweight='bold')
+plt.title('T1-values influenced by Assigned Inversion Efficency in FOCI 4-5 (WM + GM)',fontsize=12, fontweight='bold')
 plt.xlim((-0.5, 5.5))
 plt.xlabel('Assigned Inversion Efficency',fontsize=12, fontweight='bold')
 plt.ylabel('Estimated T1-values [ms]',fontsize=12, fontweight='bold')
-
-# =============================================================================
-# Now we observe the problem that we need to compremise finv (GM vs WM)
-# plot the bars in the same plot to illustrate!!!!!
-# =============================================================================
+plt.legend()
